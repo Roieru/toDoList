@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<title>Proyecto Final</title>
+<head>
+          <meta charset="utf-8" />
+          <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+          <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.3.0/uploadcare.full.min.js"></script>
+          <script src="giphy.js"></script>
+          <script>
+                  UPLOADCARE_PUBLIC_KEY = '81d3821f5b56093748ea';
+          </script>
+          <script>UPLOADCARE_CLEARABLE = true;</script>
+          <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script>
+          <script src="index.js"></script>
+<script type="text/javascript" src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
+<body>
+      <div class="ui center aligned grid">
+            <div class="four wide column"><div style="background:black;height:100%;min-height:800px;"></div></div>
+            <div class="eight wide column">
+<div id="app">
+      <h1><p style="font-size:64px;">To-do list</h1></p>
+      <p> <input type="text" placeholder="Task..." v-model.lazy="tarea" id="task"></p>
+                  <button @click="agregar" id="add" onclick="submitClick()" class="ui secondary button"> Add </button>
+                  <h2><p v-show="arrayTareas.length > 0"> Pending:</p></h2>
+                  <div style="border-top-style:solid;border-bottom-style:solid;padding-bottom:50px;" v-for="(tar,index) in arrayTareas"><h4><br>{{tar}}</h4><p><input type="hidden" role="uploadcare-uploader" name="content" data-public-key="81d3821f5b56093748ea" data-images-only /></p><div class="ui buttons">
+  <button class="ui button" @click="quitar(index)">Remove task</button>
+  <div class="or"></div>
+  <button class="ui positive button"@click="completar(index)" id="completed">Complete</button>
+</div></div>
+                  <h2><p v-show="arrayCompleto.length > 0"> Completed:</p></h2>
+                  <div v-for="(tar,index) in arrayCompleto"><h4>{{tar}}</h4></div>
+                  <p v-show="arrayCompleto.length > 0" id="giphyme"> </p>
+                  <br>
+                  <p v-show="arrayCompleto.length > 0||arrayTareas.length>0"><button @click="limpiar" class="ui negative button">Clear list</button></p>
+      </p>
+</div>
+</div>
+<div class="four wide column"><div style="background:black;height:100%;min-height:800px;"></div></div>
+</div>
+</body>
+<script>
+      var vm = new Vue({
+      el: '#app',
+      data: {
+      //gifData: JSON.parse(request.responseText).data.image_url,
+      tarea: '',
+      gifData: 'h',
+      arrayTareas: [],
+      arrayCompleto: [],
+},
+      methods:{
+      agregar: function(){
+            this.arrayTareas.push(this.tarea)
+            this.tarea='';
+      },
+      quitar: function(index){
+            this.arrayTareas.splice(index,1)
+      },
+      completar: function(index){
+            this.arrayCompleto.push(this.arrayTareas[index])
+            this.arrayTareas.splice(index,1)
+      },
+      limpiar: function(){
+            this.arrayTareas=[];
+            this.arrayCompleto=[];
+            this.tarea='';
+      }
+      }
+      });
+</script>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+
+<script>
+  // Initialize Firebase
+  // TODO: Replace with your project's customized code snippet
+  var config = {
+     apiKey: "AIzaSyBzKKyAAU4vz16bb7Bbv-D5LSERjeguG-k",
+     authDomain: "fdi-roieru.firebaseapp.com",
+     databaseURL: "https://fdi-roieru.firebaseio.com",
+     projectId: "fdi-roieru",
+     storageBucket: "fdi-roieru.appspot.com",
+     messagingSenderId: "244596885962"
+  };
+  firebase.initializeApp(config);
+</script>
